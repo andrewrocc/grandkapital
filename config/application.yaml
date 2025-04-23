@@ -1,0 +1,44 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      force: true
+      enable: true
+      charset: UTF-8
+  shutdown: graceful
+
+spring:
+  application:
+    name: grandKapital
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
+    password: root
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enable: true
+    baselineOnMigration: true
+    location: classpath:db/migration
+    schemas: grand_kapital
+
+logging:
+  level:
+    com.assessment: DEBUG
+    org:
+      springframework.web: ERROR
+      springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+      hibernate:
+        SQL: DEBUG
+        type.descriptor.sql.BasicBinder: TRACE
+  file:
+    name: log/grandKapital.log
+    max-history: 5
+    max-size: 10MB
