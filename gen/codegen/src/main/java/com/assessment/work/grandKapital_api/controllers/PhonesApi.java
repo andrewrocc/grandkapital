@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-24T11:48:41.010177800+03:00[Europe/Minsk]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-24T14:46:25.740225500+03:00[Europe/Minsk]")
 @Validated
 @Tag(name = "phones", description = "User phone number management")
 public interface PhonesApi {
@@ -59,7 +59,7 @@ public interface PhonesApi {
         tags = { "phones" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Phone added successfully", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Phone.class))
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Phone.class)))
             }),
             @ApiResponse(responseCode = "400", description = "bad request", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
@@ -71,14 +71,14 @@ public interface PhonesApi {
         value = "/phones",
         produces = { "application/json" }
     )
-    default ResponseEntity<Phone> addUserPhone(
+    default ResponseEntity<List<Phone>> addUserPhone(
         @NotNull @Parameter(name = "userId", description = "user id", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "userId", required = true) Long userId,
-        @NotNull @Parameter(name = "phone", description = "new phone", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "phone", required = true) String phone
+        @NotNull @Pattern(regexp = "^7\\d{10}$") @Parameter(name = "phone", description = "new phone", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "phone", required = true) String phone
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"phone\" : \"79207654321\" }";
+                    String exampleString = "[ { \"phone\" : \"79207654321\" }, { \"phone\" : \"79207654321\" } ]";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -90,18 +90,66 @@ public interface PhonesApi {
 
 
     /**
-     * DELETE /phones : Remove phone from user
-     * Remove phone number from user profile
+     * PUT /phones : Replace phone with new one
+     * Replace user phone
      *
-     * @param userId ID of the user (required)
+     * @param userId user id (required)
+     * @param oldPhone  (required)
+     * @param newPhone  (required)
+     * @return Phone number change successfully (status code 200)
+     *         or bad request (status code 400)
+     */
+    @Operation(
+        operationId = "changeUserPhone",
+        summary = "Replace phone with new one",
+        description = "Replace user phone",
+        tags = { "phones" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Phone number change successfully", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "bad request", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.PUT,
+        value = "/phones",
+        produces = { "application/json" }
+    )
+    default ResponseEntity<Message> changeUserPhone(
+        @NotNull @Parameter(name = "userId", description = "user id", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "userId", required = true) Long userId,
+        @NotNull @Pattern(regexp = "^7\\d{10}$") @Parameter(name = "oldPhone", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "oldPhone", required = true) String oldPhone,
+        @NotNull @Pattern(regexp = "^7\\d{10}$") @Parameter(name = "newPhone", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "newPhone", required = true) String newPhone
+    ) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"message\" : \"Success!\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+            }
+        });
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
+
+    /**
+     * DELETE /phones : Remove user phone
+     * Remove user phone number
+     *
+     * @param userId user id (required)
      * @param phone  (required)
      * @return Phone removed successfully (status code 200)
      *         or bad request (status code 400)
      */
     @Operation(
         operationId = "removeUserPhone",
-        summary = "Remove phone from user",
-        description = "Remove phone number from user profile",
+        summary = "Remove user phone",
+        description = "Remove user phone number",
         tags = { "phones" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Phone removed successfully", content = {
@@ -118,7 +166,7 @@ public interface PhonesApi {
         produces = { "application/json" }
     )
     default ResponseEntity<Message> removeUserPhone(
-        @Parameter(name = "userId", description = "ID of the user", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
+        @NotNull @Parameter(name = "userId", description = "user id", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "userId", required = true) Long userId,
         @NotNull @Pattern(regexp = "^7\\d{10}$") @Parameter(name = "phone", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "phone", required = true) String phone
     ) {
         getRequest().ifPresent(request -> {

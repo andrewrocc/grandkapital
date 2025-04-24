@@ -306,18 +306,18 @@ paths:
       - tag: emails
   /phones:
     delete:
-      description: Remove phone number from user profile
+      description: Remove user phone number
       operationId: removeUserPhone
       parameters:
-      - description: ID of the user
-        explode: false
-        in: path
+      - description: user id
+        explode: true
+        in: query
         name: userId
         required: true
         schema:
           format: int64
           type: integer
-        style: simple
+        style: form
       - explode: true
         in: query
         name: phone
@@ -339,7 +339,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: bad request
-      summary: Remove phone from user
+      summary: Remove user phone
       tags:
       - phones
       x-accepts: application/json
@@ -364,6 +364,7 @@ paths:
         name: phone
         required: true
         schema:
+          pattern: "^7\\d{10}$"
           type: string
         style: form
       responses:
@@ -371,7 +372,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Phone'
+                items:
+                  $ref: '#/components/schemas/Phone'
+                type: array
           description: Phone added successfully
         "400":
           content:
@@ -380,6 +383,54 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: bad request
       summary: Add phone to user
+      tags:
+      - phones
+      x-accepts: application/json
+      x-tags:
+      - tag: phones
+    put:
+      description: Replace user phone
+      operationId: changeUserPhone
+      parameters:
+      - description: user id
+        explode: true
+        in: query
+        name: userId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: oldPhone
+        required: true
+        schema:
+          pattern: "^7\\d{10}$"
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: newPhone
+        required: true
+        schema:
+          pattern: "^7\\d{10}$"
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: Phone number change successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: bad request
+      summary: Replace phone with new one
       tags:
       - phones
       x-accepts: application/json

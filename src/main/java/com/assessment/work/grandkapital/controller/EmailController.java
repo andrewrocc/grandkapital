@@ -34,8 +34,8 @@ public class EmailController implements EmailsApi {
     /**
      * DELETE /emails : Remove user email
      *
-     * @param userId ID of the user (required)
-     * @param email  (required)
+     * @param userId    ID of the user (required)
+     * @param email     email to delete (required)
      * @return Email removed successfully (status code 200)
      *         or bad request (status code 400)
      */
@@ -48,9 +48,9 @@ public class EmailController implements EmailsApi {
     /**
      * PUT /emails : Replace email with new one
      *
-     * @param userId ID of the user (required)
-     * @param oldEmail  (required)
-     * @param newEmail  (required)
+     * @param userId    ID of the user (required)
+     * @param oldEmail  email to need replace (required)
+     * @param newEmail  new one (required)
      * @return Email replaced successfully (status code 200)
      *         or bad request (status code 400)
      */

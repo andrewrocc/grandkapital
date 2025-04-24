@@ -264,13 +264,16 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '^7\d{10}$'
       responses:
         200:
           description: Phone added successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Phone'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Phone'
         400:
           description: bad request
           content:
@@ -281,11 +284,17 @@ paths:
     delete:
       tags:
         - phones
-      summary: Remove phone from user
+      summary: Remove user phone
       operationId: removeUserPhone
-      description: Remove phone number from user profile
+      description: Remove user phone number
       parameters:
-        - $ref: '#/components/parameters/userId'
+        - name: userId
+          in: query
+          description: user id
+          required: true
+          schema:
+            type: integer
+            format: int64
         - name: phone
           in: query
           required: true
@@ -295,6 +304,46 @@ paths:
       responses:
         200:
           description: Phone removed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      tags:
+        - phones
+      summary: Replace phone with new one
+      operationId: changeUserPhone
+      description: Replace user phone
+      parameters:
+        - name: userId
+          in: query
+          description: user id
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: oldPhone
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^7\d{10}$'
+        - name: newPhone
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^7\d{10}$'
+      responses:
+        200:
+          description: Phone number change successfully
           content:
             application/json:
               schema:
