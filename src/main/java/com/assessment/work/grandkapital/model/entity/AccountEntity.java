@@ -32,4 +32,7 @@ public class AccountEntity {
 
     @Column(name = "balance", nullable = false, precision = 19, scale = 2)
     private BigDecimal balance;
+
+    @Column(name = "init_deposit", nullable = false, precision = 19, scale = 2)
+    private BigDecimal initDeposit;
 }

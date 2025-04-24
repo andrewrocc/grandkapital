@@ -48,3 +48,7 @@ logging:
     name: log/grandKapital.log
     max-history: 5
     max-size: 10MB
+
+schedule:
+  updateBalance:
+    time: "*/30 * * * * *"    # отключить -> "-"
