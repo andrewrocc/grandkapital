@@ -1,0 +1,503 @@
+openapi: 3.0.3
+info:
+  description: "Взаимодействие с HTTP-сервисом, эмулирующий банковские транзакции\
+    \ и менеджмент пользовательский данных"
+  title: Grand Kapital
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- description: Operations with user profiles
+  name: users
+- description: User email management
+  name: emails
+- description: User phone number management
+  name: phones
+paths:
+  /users:
+    get:
+      description: |
+        Search users with various filters. Available to all users.
+        Filters:
+        - dateOfBirth: returns users born after specified date
+        - phone: exact match
+        - name: starts with match (case insensitive)
+        - email: exact match
+      operationId: getUserPage
+      parameters:
+      - description: page number
+        explode: true
+        in: query
+        name: pageNumber
+        required: true
+        schema:
+          format: int32
+          minimum: 0
+          type: integer
+        style: form
+      - description: "Number of users, returned to each page"
+        explode: true
+        in: query
+        name: pageSize
+        required: true
+        schema:
+          format: int32
+          minimum: 0
+          type: integer
+        style: form
+      - description: "Filter users born after this date (format: DD.MM.YYYY)"
+        explode: true
+        in: query
+        name: dateOfBirth
+        required: false
+        schema:
+          example: 1990-05-15
+          format: date
+          type: string
+        style: form
+      - description: "Filter by exact phone match (format: 79201234567)"
+        explode: true
+        in: query
+        name: phone
+        required: false
+        schema:
+          pattern: "^7\\d{10}$"
+          type: string
+        style: form
+      - description: Filter by names starting with the value (case insensitive)
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          minLength: 1
+          type: string
+        style: form
+      - description: Filter by exact email match
+        explode: true
+        in: query
+        name: email
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page'
+          description: List of users matching criteria
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: bad request
+      summary: Search users with filtering and pagination
+      tags:
+      - users
+      x-accepts: application/json
+      x-tags:
+      - tag: users
+  /users/{userId}:
+    get:
+      description: Retrieve user information by ID
+      operationId: getUserById
+      parameters:
+      - description: ID of the user
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: User details
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: bad request
+      summary: Get user by ID
+      tags:
+      - users
+      x-accepts: application/json
+      x-tags:
+      - tag: users
+    patch:
+      description: |
+        Update user information. User can only update their own data.
+        Allowed updates:
+        - Add/change/remove email (if not used by another user)
+        - Add/change/remove phone (if not used by another user)
+      operationId: updateUserData
+      parameters:
+      - description: ID of the user
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: User updated successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: bad request
+      summary: Update user data
+      tags:
+      - users
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: users
+  /users/{userId}/emails:
+    delete:
+      description: Remove email address from user profile
+      operationId: removeUserEmail
+      parameters:
+      - description: ID of the user
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - explode: true
+        in: query
+        name: email
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "204":
+          description: Email removed successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: bad request
+      summary: Remove email from user
+      tags:
+      - emails
+      x-accepts: application/json
+      x-tags:
+      - tag: emails
+    post:
+      description: Add new email address for user (must be unique)
+      operationId: addUserEmail
+      parameters:
+      - description: ID of the user
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Email'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Email added successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: bad request
+      summary: Add email to user
+      tags:
+      - emails
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: emails
+  /users/{userId}/phones:
+    delete:
+      description: Remove phone number from user profile
+      operationId: removeUserPhone
+      parameters:
+      - description: ID of the user
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - explode: true
+        in: query
+        name: phone
+        required: true
+        schema:
+          pattern: "^7\\d{10}$"
+          type: string
+        style: form
+      responses:
+        "200":
+          description: Phone removed successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: bad request
+      summary: Remove phone from user
+      tags:
+      - phones
+      x-accepts: application/json
+      x-tags:
+      - tag: phones
+    post:
+      description: Add new phone number for user (must be unique and in format 79201234567)
+      operationId: addUserPhone
+      parameters:
+      - description: ID of the user
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Phone'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Phone added successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: bad request
+      summary: Add phone to user
+      tags:
+      - phones
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: phones
+components:
+  parameters:
+    userId:
+      description: ID of the user
+      explode: false
+      in: path
+      name: userId
+      required: true
+      schema:
+        format: int64
+        type: integer
+      style: simple
+    page:
+      description: Page number (0-based)
+      explode: true
+      in: query
+      name: page
+      required: false
+      schema:
+        default: 0
+        minimum: 0
+        type: integer
+      style: form
+    size:
+      description: Number of items per page
+      explode: true
+      in: query
+      name: size
+      required: false
+      schema:
+        default: 20
+        maximum: 100
+        minimum: 1
+        type: integer
+      style: form
+  schemas:
+    Page:
+      description: Page
+      example:
+        number: 0
+        total: 6
+        elementsTotal: 1
+        elements:
+        - null
+        - null
+      properties:
+        number:
+          description: Page number
+          format: int32
+          type: integer
+        total:
+          description: Amount of pages
+          format: int32
+          type: integer
+        elementsTotal:
+          description: Total amount of elements on all pages
+          format: int64
+          type: integer
+        elements:
+          items:
+            $ref: '#/components/schemas/Page_elements_inner'
+          type: array
+      type: object
+    User:
+      example:
+        emails:
+        - ivan.petrov@example.com
+        name: Иван Иванов
+        phones:
+        - "79201234567"
+        dateOfBirth: 2000-01-23
+        id: 1
+        account:
+          balance: 1500.75
+          id: 1
+      properties:
+        id:
+          example: 1
+          format: int64
+          type: integer
+        name:
+          example: Иван Иванов
+          type: string
+        dateOfBirth:
+          format: date
+          type: string
+        emails:
+          example:
+          - ivan.petrov@example.com
+          items:
+            type: string
+          type: array
+        phones:
+          example:
+          - "79201234567"
+          items:
+            pattern: "^7\\d{10}$"
+            type: string
+          type: array
+        account:
+          $ref: '#/components/schemas/Account'
+      type: object
+    Account:
+      example:
+        balance: 1500.75
+        id: 1
+      properties:
+        id:
+          example: 1
+          format: int64
+          type: integer
+        balance:
+          example: 1500.75
+          format: decimal
+          type: number
+      type: object
+    UserUpdate:
+      example:
+        password: newPassword123
+        name: Иван Иванов
+        dateOfBirth: 01.05.1993
+      properties:
+        name:
+          example: Иван Иванов
+          maxLength: 500
+          minLength: 1
+          type: string
+        dateOfBirth:
+          example: 01.05.1993
+          pattern: "^\\d{2}\\.\\d{2}\\.\\d{4}$"
+          type: string
+        password:
+          example: newPassword123
+          maxLength: 500
+          minLength: 8
+          type: string
+      type: object
+    Email:
+      example:
+        email: new.email@example.com
+      properties:
+        email:
+          example: new.email@example.com
+          type: string
+      required:
+      - email
+      type: object
+    Phone:
+      example:
+        phone: "79207654321"
+      properties:
+        phone:
+          example: "79207654321"
+          pattern: "^7\\d{10}$"
+          type: string
+      required:
+      - phone
+      type: object
+    Error:
+      properties:
+        status:
+          example: 400
+          type: integer
+        message:
+          description: message of error
+          example: Invalid date format. Expected DD.MM.YYYY
+          type: string
+      required:
+      - message
+      type: object
+    Page_elements_inner:
+      oneOf:
+      - $ref: '#/components/schemas/User'
+      x-one-of-name: PageElementsInner
