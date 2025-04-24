@@ -15,32 +15,32 @@ import java.util.*;
 import javax.annotation.Generated;
 
 /**
- * Phone
+ * Message
  */
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-24T11:48:41.010177800+03:00[Europe/Minsk]")
-public class Phone {
+public class Message {
 
-  @JsonProperty("phone")
-  private String phone;
+  @JsonProperty("message")
+  private String message;
 
-  public Phone phone(String phone) {
-    this.phone = phone;
+  public Message message(String message) {
+    this.message = message;
     return this;
   }
 
   /**
-   * Get phone
-   * @return phone
+   * success message
+   * @return message
   */
-  @NotNull @Pattern(regexp = "^7\\d{10}$") 
-  @Schema(name = "phone", example = "79207654321", requiredMode = Schema.RequiredMode.REQUIRED)
-  public String getPhone() {
-    return phone;
+  @NotNull 
+  @Schema(name = "message", example = "Success!", description = "success message", requiredMode = Schema.RequiredMode.REQUIRED)
+  public String getMessage() {
+    return message;
   }
 
-  public void setPhone(String phone) {
-    this.phone = phone;
+  public void setMessage(String message) {
+    this.message = message;
   }
 
   @Override
@@ -51,20 +51,20 @@ public class Phone {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Phone phone = (Phone) o;
-    return Objects.equals(this.phone, phone.phone);
+    Message message = (Message) o;
+    return Objects.equals(this.message, message.message);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(phone);
+    return Objects.hash(message);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Phone {\n");
-    sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
+    sb.append("class Message {\n");
+    sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");
     return sb.toString();
   }

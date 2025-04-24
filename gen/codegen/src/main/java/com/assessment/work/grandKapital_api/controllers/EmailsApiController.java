@@ -1,11 +1,8 @@
 package com.assessment.work.grandKapital_api.controllers;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.assessment.work.grandKapital_api.models.Email;
 import com.assessment.work.grandKapital_api.models.Error;
-import java.time.LocalDate;
-import com.assessment.work.grandKapital_api.models.Page;
-import com.assessment.work.grandKapital_api.models.User;
-import com.assessment.work.grandKapital_api.models.UserUpdate;
+import com.assessment.work.grandKapital_api.models.Message;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +31,12 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-24T11:48:41.010177800+03:00[Europe/Minsk]")
 @Controller
 @RequestMapping("${openapi.grandKapital.base-path:}")
-public class UsersApiController implements UsersApi {
+public class EmailsApiController implements EmailsApi {
 
     private final NativeWebRequest request;
 
     @Autowired
-    public UsersApiController(NativeWebRequest request) {
+    public EmailsApiController(NativeWebRequest request) {
         this.request = request;
     }
 

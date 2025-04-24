@@ -2,11 +2,16 @@
 README.md
 pom.xml
 src/main/java/com/assessment/work/grandKapital_api/controllers/ApiUtil.java
+src/main/java/com/assessment/work/grandKapital_api/controllers/EmailsApi.java
+src/main/java/com/assessment/work/grandKapital_api/controllers/EmailsApiController.java
+src/main/java/com/assessment/work/grandKapital_api/controllers/PhonesApi.java
+src/main/java/com/assessment/work/grandKapital_api/controllers/PhonesApiController.java
 src/main/java/com/assessment/work/grandKapital_api/controllers/UsersApi.java
 src/main/java/com/assessment/work/grandKapital_api/controllers/UsersApiController.java
 src/main/java/com/assessment/work/grandKapital_api/models/Account.java
 src/main/java/com/assessment/work/grandKapital_api/models/Email.java
 src/main/java/com/assessment/work/grandKapital_api/models/Error.java
+src/main/java/com/assessment/work/grandKapital_api/models/Message.java
 src/main/java/com/assessment/work/grandKapital_api/models/Page.java
 src/main/java/com/assessment/work/grandKapital_api/models/PageElementsInner.java
 src/main/java/com/assessment/work/grandKapital_api/models/Phone.java

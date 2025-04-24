@@ -16,18 +16,19 @@ import lombok.experimental.Accessors;
 @Data
 @Entity
 @Accessors(chain = true)
-@Table(name = "email_data")
-public class EmailDataEntity {
+@Table(name = "phone_data")
+public class PhoneEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "phone_data_id_gen")
+    @SequenceGenerator(name = "phone_data_id_gen", sequenceName = "phone_data_id_sq", allocationSize = 1)
     @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "email_data_id_gen")
-    @SequenceGenerator(name = "email_data_id_gen", sequenceName = "email_data_id_sq", allocationSize = 1)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id")
     private UserEntity user;
 
-    @Column(name = "email", nullable = false, length = 200, unique = true)
-    private String email;
+    @Column(name = "phone", nullable = false, length = 13, unique = true)
+    private String phone;
+
 }

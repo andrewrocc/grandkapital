@@ -1,9 +1,7 @@
 package com.assessment.work.grandkapital.controller;
 
 import com.assessment.work.grandKapital_api.controllers.UsersApi;
-import com.assessment.work.grandKapital_api.models.Email;
 import com.assessment.work.grandKapital_api.models.Page;
-import com.assessment.work.grandKapital_api.models.Phone;
 import com.assessment.work.grandKapital_api.models.User;
 import com.assessment.work.grandKapital_api.models.UserUpdate;
 import com.assessment.work.grandkapital.exception.ValidationException;
@@ -26,18 +24,9 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 public class UserController implements UsersApi {
 
+    // todo replace request userId param to jwt.userId
     private final UserService userService;
     private final UserMapper userMapper;
-
-    @Override
-    public ResponseEntity<User> addUserEmail(Long userId, Email email) {
-        return UsersApi.super.addUserEmail(userId, email);
-    }
-
-    @Override
-    public ResponseEntity<User> addUserPhone(Long userId, Phone phone) {
-        return UsersApi.super.addUserPhone(userId, phone);
-    }
 
     /**
      * GET /users/{userId} : Get user by ID
@@ -83,16 +72,6 @@ public class UserController implements UsersApi {
                 throw new ValidationException("Wrong date format", HttpStatus.BAD_REQUEST);
             }
         }
-    }
-
-    @Override
-    public ResponseEntity<Void> removeUserEmail(Long userId, String email) {
-        return UsersApi.super.removeUserEmail(userId, email);
-    }
-
-    @Override
-    public ResponseEntity<Void> removeUserPhone(Long userId, String phone) {
-        return UsersApi.super.removeUserPhone(userId, phone);
     }
 
     @Override

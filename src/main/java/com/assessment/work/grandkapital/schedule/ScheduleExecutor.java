@@ -21,7 +21,7 @@ public class ScheduleExecutor {
     @Scheduled(cron = "${schedule.updateBalance.time}")
     public void updateBalance() {
         log.debug("Schedule update balance has been started");
-        accountRepository.findAll().forEach(account -> {            // not best practise extract all data :))
+        accountRepository.findAll().forEach(account -> {            // not best practise :))
             BigDecimal balance = account.getBalance();
             BigDecimal increased = account.getBalance().multiply(new BigDecimal(1.10));
 

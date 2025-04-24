@@ -2,8 +2,8 @@ package com.assessment.work.grandkapital.mapper;
 
 import com.assessment.work.grandKapital_api.models.Account;
 import com.assessment.work.grandKapital_api.models.User;
-import com.assessment.work.grandkapital.model.entity.EmailDataEntity;
-import com.assessment.work.grandkapital.model.entity.PhoneDataEntity;
+import com.assessment.work.grandkapital.model.entity.EmailEntity;
+import com.assessment.work.grandkapital.model.entity.PhoneEntity;
 import com.assessment.work.grandkapital.model.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -22,12 +22,12 @@ public interface UserMapper {
 
     @Named("mapEmails")
     default List<String> mapEmails(UserEntity source) {
-        return source.getEmails().stream().map(EmailDataEntity::getEmail).toList();
+        return source.getEmails().stream().map(EmailEntity::getEmail).toList();
     }
 
     @Named("mapPhones")
     default List<String> mapPhones(UserEntity source) {
-        return source.getPhones().stream().map(PhoneDataEntity::getPhone).toList();
+        return source.getPhones().stream().map(PhoneEntity::getPhone).toList();
     }
 
     @Named("mapAccount")

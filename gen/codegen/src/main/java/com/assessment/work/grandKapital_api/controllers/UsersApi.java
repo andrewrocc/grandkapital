@@ -6,11 +6,9 @@
 package com.assessment.work.grandKapital_api.controllers;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import com.assessment.work.grandKapital_api.models.Email;
 import com.assessment.work.grandKapital_api.models.Error;
 import java.time.LocalDate;
 import com.assessment.work.grandKapital_api.models.Page;
-import com.assessment.work.grandKapital_api.models.Phone;
 import com.assessment.work.grandKapital_api.models.User;
 import com.assessment.work.grandKapital_api.models.UserUpdate;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -39,108 +37,14 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-23T17:24:14.841335+03:00[Europe/Minsk]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-24T11:48:41.010177800+03:00[Europe/Minsk]")
 @Validated
-@Tag(name = "emails", description = "User email management")
+@Tag(name = "users", description = "Operations with user profiles")
 public interface UsersApi {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
-
-    /**
-     * POST /users/{userId}/emails : Add email to user
-     * Add new email address for user (must be unique)
-     *
-     * @param userId ID of the user (required)
-     * @param email  (required)
-     * @return Email added successfully (status code 201)
-     *         or bad request (status code 400)
-     */
-    @Operation(
-        operationId = "addUserEmail",
-        summary = "Add email to user",
-        description = "Add new email address for user (must be unique)",
-        tags = { "emails" },
-        responses = {
-            @ApiResponse(responseCode = "201", description = "Email added successfully", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "bad request", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.POST,
-        value = "/users/{userId}/emails",
-        produces = { "application/json" },
-        consumes = { "application/json" }
-    )
-    default ResponseEntity<User> addUserEmail(
-        @Parameter(name = "userId", description = "ID of the user", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
-        @Parameter(name = "Email", description = "", required = true) @Valid @RequestBody Email email
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"emails\" : [ \"ivan.petrov@example.com\" ], \"name\" : \"Иван Иванов\", \"phones\" : [ \"79201234567\" ], \"dateOfBirth\" : \"2000-01-23\", \"id\" : 1, \"account\" : { \"balance\" : 1500.75, \"id\" : 1 } }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
-
-    /**
-     * POST /users/{userId}/phones : Add phone to user
-     * Add new phone number for user (must be unique and in format 79201234567)
-     *
-     * @param userId ID of the user (required)
-     * @param phone  (required)
-     * @return Phone added successfully (status code 201)
-     *         or bad request (status code 400)
-     */
-    @Operation(
-        operationId = "addUserPhone",
-        summary = "Add phone to user",
-        description = "Add new phone number for user (must be unique and in format 79201234567)",
-        tags = { "phones" },
-        responses = {
-            @ApiResponse(responseCode = "201", description = "Phone added successfully", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "bad request", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.POST,
-        value = "/users/{userId}/phones",
-        produces = { "application/json" },
-        consumes = { "application/json" }
-    )
-    default ResponseEntity<User> addUserPhone(
-        @Parameter(name = "userId", description = "ID of the user", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
-        @Parameter(name = "Phone", description = "", required = true) @Valid @RequestBody Phone phone
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"emails\" : [ \"ivan.petrov@example.com\" ], \"name\" : \"Иван Иванов\", \"phones\" : [ \"79201234567\" ], \"dateOfBirth\" : \"2000-01-23\", \"id\" : 1, \"account\" : { \"balance\" : 1500.75, \"id\" : 1 } }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
 
     /**
      * GET /users/{userId} : Get user by ID
@@ -175,7 +79,7 @@ public interface UsersApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"emails\" : [ \"ivan.petrov@example.com\" ], \"name\" : \"Иван Иванов\", \"phones\" : [ \"79201234567\" ], \"dateOfBirth\" : \"2000-01-23\", \"id\" : 1, \"account\" : { \"balance\" : 1500.75, \"id\" : 1 } }";
+                    String exampleString = "{ \"emails\" : [ \"ivan.petrov@example.com\" ], \"name\" : \"Иван Иванов\", \"phones\" : [ \"79200234567\" ], \"dateOfBirth\" : \"2000-01-23\", \"id\" : 1, \"account\" : { \"balance\" : 1500.75, \"id\" : 1 } }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -193,7 +97,7 @@ public interface UsersApi {
      * @param pageNumber page number (required)
      * @param pageSize Number of users, returned to each page (required)
      * @param dateOfBirth Filter users born after this date (format: DD.MM.YYYY) (optional)
-     * @param phone Filter by exact phone match (format: 79201234567) (optional)
+     * @param phone Filter by exact phone match (format: 79200234567) (optional)
      * @param name Filter by names starting with the value (case insensitive) (optional)
      * @param email Filter by exact email match (optional)
      * @return List of users matching criteria (status code 200)
@@ -222,7 +126,7 @@ public interface UsersApi {
         @NotNull @Min(0) @Parameter(name = "pageNumber", description = "page number", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "pageNumber", required = true) Integer pageNumber,
         @NotNull @Min(0) @Parameter(name = "pageSize", description = "Number of users, returned to each page", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "pageSize", required = true) Integer pageSize,
         @Parameter(name = "dateOfBirth", description = "Filter users born after this date (format: DD.MM.YYYY)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "dateOfBirth", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateOfBirth,
-        @Pattern(regexp = "^7\\d{10}$") @Parameter(name = "phone", description = "Filter by exact phone match (format: 79201234567)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "phone", required = false) String phone,
+        @Pattern(regexp = "^7\\d{10}$") @Parameter(name = "phone", description = "Filter by exact phone match (format: 79200234567)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "phone", required = false) String phone,
         @Size(min = 1) @Parameter(name = "name", description = "Filter by names starting with the value (case insensitive)", in = ParameterIn.QUERY) @Valid @RequestParam(value = "name", required = false) String name,
         @Parameter(name = "email", description = "Filter by exact email match", in = ParameterIn.QUERY) @Valid @RequestParam(value = "email", required = false) String email
     ) {
@@ -235,76 +139,6 @@ public interface UsersApi {
                 }
             }
         });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
-
-    /**
-     * DELETE /users/{userId}/emails : Remove email from user
-     * Remove email address from user profile
-     *
-     * @param userId ID of the user (required)
-     * @param email  (required)
-     * @return Email removed successfully (status code 204)
-     *         or bad request (status code 400)
-     */
-    @Operation(
-        operationId = "removeUserEmail",
-        summary = "Remove email from user",
-        description = "Remove email address from user profile",
-        tags = { "emails" },
-        responses = {
-            @ApiResponse(responseCode = "204", description = "Email removed successfully"),
-            @ApiResponse(responseCode = "400", description = "bad request", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.DELETE,
-        value = "/users/{userId}/emails",
-        produces = { "application/json" }
-    )
-    default ResponseEntity<Void> removeUserEmail(
-        @Parameter(name = "userId", description = "ID of the user", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
-        @NotNull @Parameter(name = "email", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "email", required = true) String email
-    ) {
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
-
-    /**
-     * DELETE /users/{userId}/phones : Remove phone from user
-     * Remove phone number from user profile
-     *
-     * @param userId ID of the user (required)
-     * @param phone  (required)
-     * @return Phone removed successfully (status code 200)
-     *         or bad request (status code 400)
-     */
-    @Operation(
-        operationId = "removeUserPhone",
-        summary = "Remove phone from user",
-        description = "Remove phone number from user profile",
-        tags = { "phones" },
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Phone removed successfully"),
-            @ApiResponse(responseCode = "400", description = "bad request", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.DELETE,
-        value = "/users/{userId}/phones",
-        produces = { "application/json" }
-    )
-    default ResponseEntity<Void> removeUserPhone(
-        @Parameter(name = "userId", description = "ID of the user", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
-        @NotNull @Pattern(regexp = "^7\\d{10}$") @Parameter(name = "phone", description = "", required = true, in = ParameterIn.QUERY) @Valid @RequestParam(value = "phone", required = true) String phone
-    ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -346,7 +180,7 @@ public interface UsersApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"emails\" : [ \"ivan.petrov@example.com\" ], \"name\" : \"Иван Иванов\", \"phones\" : [ \"79201234567\" ], \"dateOfBirth\" : \"2000-01-23\", \"id\" : 1, \"account\" : { \"balance\" : 1500.75, \"id\" : 1 } }";
+                    String exampleString = "{ \"emails\" : [ \"ivan.petrov@example.com\" ], \"name\" : \"Иван Иванов\", \"phones\" : [ \"79200234567\" ], \"dateOfBirth\" : \"2000-01-23\", \"id\" : 1, \"account\" : { \"balance\" : 1500.75, \"id\" : 1 } }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

@@ -51,4 +51,4 @@ logging:
 
 schedule:
   updateBalance:
-    time: "*/30 * * * * *"    # отключить -> "-"
+    time: "-" #"*/30 * * * * *"    # отключить -> "-"

@@ -55,7 +55,7 @@ paths:
           format: date
           type: string
         style: form
-      - description: "Filter by exact phone match (format: 79201234567)"
+      - description: "Filter by exact phone match (format: 79200234567)"
         explode: true
         in: query
         name: phone
@@ -176,20 +176,20 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: users
-  /users/{userId}/emails:
+  /emails:
     delete:
       description: Remove email address from user profile
       operationId: removeUserEmail
       parameters:
-      - description: ID of the user
-        explode: false
-        in: path
+      - description: user id
+        explode: true
+        in: query
         name: userId
         required: true
         schema:
           format: int64
           type: integer
-        style: simple
+        style: form
       - explode: true
         in: query
         name: email
@@ -198,7 +198,11 @@ paths:
           type: string
         style: form
       responses:
-        "204":
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
           description: Email removed successfully
         "400":
           content:
@@ -216,27 +220,31 @@ paths:
       description: Add new email address for user (must be unique)
       operationId: addUserEmail
       parameters:
-      - description: ID of the user
-        explode: false
-        in: path
+      - description: user id
+        explode: true
+        in: query
         name: userId
         required: true
         schema:
           format: int64
           type: integer
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Email'
+        style: form
+      - description: new email
+        explode: true
+        in: query
+        name: email
         required: true
+        schema:
+          type: string
+        style: form
       responses:
-        "201":
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                items:
+                  $ref: '#/components/schemas/Email'
+                type: array
           description: Email added successfully
         "400":
           content:
@@ -247,11 +255,56 @@ paths:
       summary: Add email to user
       tags:
       - emails
-      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: emails
-  /users/{userId}/phones:
+    put:
+      description: Replace user email address
+      operationId: changeUserEmail
+      parameters:
+      - description: user id
+        explode: true
+        in: query
+        name: userId
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: oldEmail
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: newEmail
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: Email replaced successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: bad request
+      summary: Replace email with new one
+      tags:
+      - emails
+      x-accepts: application/json
+      x-tags:
+      - tag: emails
+  /phones:
     delete:
       description: Remove phone number from user profile
       operationId: removeUserPhone
@@ -275,6 +328,10 @@ paths:
         style: form
       responses:
         "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
           description: Phone removed successfully
         "400":
           content:
@@ -289,30 +346,32 @@ paths:
       x-tags:
       - tag: phones
     post:
-      description: Add new phone number for user (must be unique and in format 79201234567)
+      description: Add new phone number for user (must be unique and in format 79200234567)
       operationId: addUserPhone
       parameters:
-      - description: ID of the user
-        explode: false
-        in: path
+      - description: user id
+        explode: true
+        in: query
         name: userId
         required: true
         schema:
           format: int64
           type: integer
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Phone'
+        style: form
+      - description: new phone
+        explode: true
+        in: query
+        name: phone
         required: true
+        schema:
+          type: string
+        style: form
       responses:
-        "201":
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Phone'
           description: Phone added successfully
         "400":
           content:
@@ -323,7 +382,6 @@ paths:
       summary: Add phone to user
       tags:
       - phones
-      x-content-type: application/json
       x-accepts: application/json
       x-tags:
       - tag: phones
@@ -396,7 +454,7 @@ components:
         - ivan.petrov@example.com
         name: Иван Иванов
         phones:
-        - "79201234567"
+        - "79200234567"
         dateOfBirth: 2000-01-23
         id: 1
         account:
@@ -421,7 +479,7 @@ components:
           type: array
         phones:
           example:
-          - "79201234567"
+          - "79200234567"
           items:
             pattern: "^7\\d{10}$"
             type: string
@@ -493,6 +551,17 @@ components:
         message:
           description: message of error
           example: Invalid date format. Expected DD.MM.YYYY
+          type: string
+      required:
+      - message
+      type: object
+    Message:
+      example:
+        message: Success!
+      properties:
+        message:
+          description: success message
+          example: Success!
           type: string
       required:
       - message

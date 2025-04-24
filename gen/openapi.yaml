@@ -51,7 +51,7 @@ paths:
             example: "1990-05-15"
         - name: phone
           in: query
-          description: "Filter by exact phone match (format: 79201234567)"
+          description: "Filter by exact phone match (format: 79200234567)"
           schema:
             type: string
             pattern: '^7\d{10}$'
@@ -135,7 +135,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /users/{userId}/emails:
+  /emails:
     post:
       tags:
         - emails
@@ -143,20 +143,28 @@ paths:
       operationId: addUserEmail
       description: Add new email address for user (must be unique)
       parameters:
-        - $ref: '#/components/parameters/userId'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Email'
+        - name: userId
+          in: query
+          description: user id
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: email
+          in: query
+          description: new email
+          required: true
+          schema:
+            type: string
       responses:
-        201:
+        200:
           description: Email added successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Email'
         400:
           description: bad request
           content:
@@ -171,15 +179,25 @@ paths:
       operationId: removeUserEmail
       description: Remove email address from user profile
       parameters:
-        - $ref: '#/components/parameters/userId'
+        - name: userId
+          in: query
+          description: user id
+          required: true
+          schema:
+            type: integer
+            format: int64
         - name: email
           in: query
           required: true
           schema:
             type: string
       responses:
-        204:
+        200:
           description: Email removed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
         400:
           description: bad request
           content:
@@ -187,28 +205,72 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-  /users/{userId}/phones:
+    put:
+      tags:
+        - emails
+      summary: Replace email with new one
+      operationId: changeUserEmail
+      description: Replace user email address
+      parameters:
+        - name: userId
+          in: query
+          description: user id
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: oldEmail
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: newEmail
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Email replaced successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /phones:
     post:
       tags:
         - phones
       summary: Add phone to user
       operationId: addUserPhone
-      description: Add new phone number for user (must be unique and in format 79201234567)
+      description: Add new phone number for user (must be unique and in format 79200234567)
       parameters:
-        - $ref: '#/components/parameters/userId'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Phone'
+        - name: userId
+          in: query
+          description: user id
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: phone
+          in: query
+          description: new phone
+          required: true
+          schema:
+            type: string
       responses:
-        201:
+        200:
           description: Phone added successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/Phone'
         400:
           description: bad request
           content:
@@ -233,6 +295,10 @@ paths:
       responses:
         200:
           description: Phone removed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
         400:
           description: bad request
           content:
@@ -288,7 +354,7 @@ components:
           items:
             type: string
             pattern: '^7\d{10}$'
-          example: ["79201234567"]
+          example: ["79200234567"]
         account:
             $ref: '#/components/schemas/Account'
 
@@ -351,6 +417,16 @@ components:
           type: string
           description: "message of error"
           example: "Invalid date format. Expected DD.MM.YYYY"
+      required:
+        - message
+
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          description: "success message"
+          example: "Success!"
       required:
         - message
 

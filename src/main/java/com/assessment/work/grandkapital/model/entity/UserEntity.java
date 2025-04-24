@@ -51,8 +51,8 @@ public class UserEntity {
     private AccountEntity account;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<EmailDataEntity> emails;
+    private Set<EmailEntity> emails;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<PhoneDataEntity> phones;
+    private Set<PhoneEntity> phones;
 }
