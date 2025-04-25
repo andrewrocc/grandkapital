@@ -1,7 +1,7 @@
 package com.assessment.work.grandkapital.mapper;
 
-import com.assessment.work.grandKapital_api.models.Account;
-import com.assessment.work.grandKapital_api.models.User;
+import com.assessment.work.grandkapital.model.dto.Account;
+import com.assessment.work.grandkapital.model.dto.User;
 import com.assessment.work.grandkapital.model.entity.EmailEntity;
 import com.assessment.work.grandkapital.model.entity.PhoneEntity;
 import com.assessment.work.grandkapital.model.entity.UserEntity;

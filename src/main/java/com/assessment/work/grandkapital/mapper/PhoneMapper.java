@@ -1,6 +1,6 @@
 package com.assessment.work.grandkapital.mapper;
 
-import com.assessment.work.grandKapital_api.models.Phone;
+import com.assessment.work.grandkapital.model.dto.Phone;
 import com.assessment.work.grandkapital.model.entity.PhoneEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

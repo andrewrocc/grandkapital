@@ -1,6 +1,6 @@
 package com.assessment.work.grandkapital.exception;
 
-import com.assessment.work.grandKapital_api.models.Error;
+import com.assessment.work.grandkapital.model.dto.Error;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;

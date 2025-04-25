@@ -1,6 +1,6 @@
 package com.assessment.work.grandkapital.service.impl;
 
-import com.assessment.work.grandKapital_api.models.Email;
+import com.assessment.work.grandkapital.model.dto.Email;
 import com.assessment.work.grandkapital.exception.GrandKapitalException;
 import com.assessment.work.grandkapital.mapper.EmailMapper;
 import com.assessment.work.grandkapital.model.entity.EmailEntity;

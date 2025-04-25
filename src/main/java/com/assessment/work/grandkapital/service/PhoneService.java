@@ -1,6 +1,6 @@
 package com.assessment.work.grandkapital.service;
 
-import com.assessment.work.grandKapital_api.models.Phone;
+import com.assessment.work.grandkapital.model.dto.Phone;
 
 import java.util.List;
 

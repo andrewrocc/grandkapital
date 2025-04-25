@@ -1,6 +1,6 @@
 package com.assessment.work.grandkapital.service;
 
-import com.assessment.work.grandKapital_api.models.TransferRequest;
+import com.assessment.work.grandkapital.model.dto.TransferRequest;
 
 public interface TransferService {
 

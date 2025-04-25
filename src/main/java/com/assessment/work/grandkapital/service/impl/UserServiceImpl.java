@@ -1,6 +1,6 @@
 package com.assessment.work.grandkapital.service.impl;
 
-import com.assessment.work.grandKapital_api.models.Page;
+import com.assessment.work.grandkapital.model.dto.Page;
 import com.assessment.work.grandkapital.exception.GrandKapitalException;
 import com.assessment.work.grandkapital.mapper.UserMapper;
 import com.assessment.work.grandkapital.model.entity.UserEntity;

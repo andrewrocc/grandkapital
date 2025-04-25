@@ -1,20 +1,23 @@
 package com.assessment.work.grandkapital.controller;
 
-import com.assessment.work.grandKapital_api.controllers.EmailsApi;
-import com.assessment.work.grandKapital_api.models.Email;
-import com.assessment.work.grandKapital_api.models.Message;
+import com.assessment.work.grandkapital.model.dto.Email;
+import com.assessment.work.grandkapital.model.dto.Message;
 import com.assessment.work.grandkapital.service.EmailService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
 @Validated
 @Controller
 @RequiredArgsConstructor
-public class EmailController implements EmailsApi {
+public class EmailController {
 
     private final EmailService emailService;
 
@@ -26,8 +29,13 @@ public class EmailController implements EmailsApi {
      * @return Email added successfully (status code 200)
      *         or bad request (status code 400)
      */
-    @Override
-    public ResponseEntity<List<Email>> addUserEmail(Long userId, String email) {
+    @RequestMapping(
+            method = RequestMethod.POST,
+            value = "/emails",
+            produces = { "application/json" }
+    )
+    public ResponseEntity<List<Email>> addUserEmail(@NotNull @Valid Long userId,
+                                                    @NotNull @Valid String email) {
         return ResponseEntity.ok(emailService.addEmail(userId, email));
     }
 
@@ -39,8 +47,13 @@ public class EmailController implements EmailsApi {
      * @return Email removed successfully (status code 200)
      *         or bad request (status code 400)
      */
-    @Override
-    public ResponseEntity<Message> removeUserEmail(Long userId, String email) {
+    @RequestMapping(
+            method = RequestMethod.DELETE,
+            value = "/emails",
+            produces = { "application/json" }
+    )
+    public ResponseEntity<Message> removeUserEmail(@NotNull @Valid Long userId,
+                                                   @NotNull @Valid String email) {
         emailService.removeEmail(userId, email);
         return ResponseEntity.ok(new Message().message("Success"));
     }
@@ -54,8 +67,14 @@ public class EmailController implements EmailsApi {
      * @return Email replaced successfully (status code 200)
      *         or bad request (status code 400)
      */
-    @Override
-    public ResponseEntity<Message> changeUserEmail(Long userId, String oldEmail, String newEmail) {
+    @RequestMapping(
+            method = RequestMethod.PUT,
+            value = "/emails",
+            produces = { "application/json" }
+    )
+    public ResponseEntity<Message> changeUserEmail(@NotNull @Valid Long userId,
+                                                   @NotNull @Valid String oldEmail,
+                                                   @NotNull @Valid String newEmail) {
         emailService.changeEmail(userId, oldEmail, newEmail);
         return ResponseEntity.ok(new Message().message("Success"));
     }

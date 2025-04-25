@@ -1,6 +1,6 @@
 package com.assessment.work.grandkapital.mapper;
 
-import com.assessment.work.grandKapital_api.models.Email;
+import com.assessment.work.grandkapital.model.dto.Email;
 import com.assessment.work.grandkapital.model.entity.EmailEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;

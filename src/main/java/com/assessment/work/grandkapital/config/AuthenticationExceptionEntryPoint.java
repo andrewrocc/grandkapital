@@ -1,6 +1,6 @@
 package com.assessment.work.grandkapital.config;
 
-import com.assessment.work.grandKapital_api.models.Error;
+import com.assessment.work.grandkapital.model.dto.Error;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

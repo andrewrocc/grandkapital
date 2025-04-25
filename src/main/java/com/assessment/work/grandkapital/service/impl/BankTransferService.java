@@ -1,18 +1,16 @@
 package com.assessment.work.grandkapital.service.impl;
 
-import com.assessment.work.grandKapital_api.models.TransferRequest;
+import com.assessment.work.grandkapital.model.dto.TransferRequest;
 import com.assessment.work.grandkapital.exception.GrandKapitalException;
 import com.assessment.work.grandkapital.model.entity.UserEntity;
 import com.assessment.work.grandkapital.repository.UserRepository;
 import com.assessment.work.grandkapital.service.TransferService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BankTransferService implements TransferService {

@@ -1,6 +1,6 @@
 package com.assessment.work.grandkapital.service.impl;
 
-import com.assessment.work.grandKapital_api.models.Phone;
+import com.assessment.work.grandkapital.model.dto.Phone;
 import com.assessment.work.grandkapital.exception.GrandKapitalException;
 import com.assessment.work.grandkapital.mapper.PhoneMapper;
 import com.assessment.work.grandkapital.model.entity.PhoneEntity;
@@ -8,8 +8,6 @@ import com.assessment.work.grandkapital.model.entity.UserEntity;
 import com.assessment.work.grandkapital.repository.PhoneRepository;
 import com.assessment.work.grandkapital.service.PhoneService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,7 +32,6 @@ public class PhoneServiceImpl implements PhoneService {
     }
 
     @Override
-    @CacheEvict(value = "phone", key = "{#userId, #oldPhone}", cacheManager = "phones")
     public void changePhone(Long userId, String oldPhone, String newPhone) {
         checkExistence(newPhone);
 
@@ -49,8 +46,7 @@ public class PhoneServiceImpl implements PhoneService {
         phoneRepository.delete(entity);
     }
 
-    @Cacheable(value = "phone", key = "{#userId, #phone}", cacheManager = "phones")
-    public PhoneEntity getPhoneBy(Long userId, String phone) {
+    private PhoneEntity getPhoneBy(Long userId, String phone) {
         return phoneRepository.findByPhoneAndUserId(phone, userId).orElseThrow(() -> new GrandKapitalException("Phone not found"));
     }
 

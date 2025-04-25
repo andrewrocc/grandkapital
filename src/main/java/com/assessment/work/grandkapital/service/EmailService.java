@@ -1,6 +1,6 @@
 package com.assessment.work.grandkapital.service;
 
-import com.assessment.work.grandKapital_api.models.Email;
+import com.assessment.work.grandkapital.model.dto.Email;
 import java.util.List;
 
 public interface EmailService {
