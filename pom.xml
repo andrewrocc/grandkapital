@@ -63,17 +63,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>1.6.3</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.assessment.work.api</groupId>-->
-<!--            <artifactId>grandKapital-api</artifactId>-->
-<!--            <version>1.0.0</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations-jakarta</artifactId>
@@ -94,9 +95,23 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.12.6</version>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>properties</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>*.yaml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

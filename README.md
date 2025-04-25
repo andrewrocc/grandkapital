@@ -27,7 +27,7 @@ java -jar target/grandKapital-0.0.1.jar
 ## Объяснение решения и реализация
 
 В сервисе реализована следующая функциональность:
-Приложено [yaml описание](gen/openapi.yaml) - написано по openapi спецификации
+Приложено [yaml описание](gen/openapi.yaml) - написано по openapi спецификации.
 Сгенерировав openapi.yaml, можно увидеть шаблон по которому строилась REST endpoints(генерировать через mvn clean generate-sources)
 
 ## Детали реализации
