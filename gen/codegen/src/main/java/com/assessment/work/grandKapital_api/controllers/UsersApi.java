@@ -37,7 +37,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-24T14:46:25.740225500+03:00[Europe/Minsk]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-25T09:11:06.264542200+03:00[Europe/Minsk]")
 @Validated
 @Tag(name = "users", description = "Operations with user profiles")
 public interface UsersApi {
@@ -50,7 +50,7 @@ public interface UsersApi {
      * GET /users/{userId} : Get user by ID
      * Retrieve user information by ID
      *
-     * @param userId ID of the user (required)
+     * @param userId user id (required)
      * @return User details (status code 200)
      *         or bad request (status code 400)
      */
@@ -74,7 +74,7 @@ public interface UsersApi {
         produces = { "application/json" }
     )
     default ResponseEntity<User> getUserById(
-        @Parameter(name = "userId", description = "ID of the user", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId
+        @Parameter(name = "userId", description = "user id", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -148,7 +148,7 @@ public interface UsersApi {
      * PATCH /users/{userId} : Update user data
      * Update user information. User can only update their own data. Allowed updates: - Add/change/remove email (if not used by another user) - Add/change/remove phone (if not used by another user) 
      *
-     * @param userId ID of the user (required)
+     * @param userId user id (required)
      * @param userUpdate  (required)
      * @return User updated successfully (status code 200)
      *         or bad request (status code 400)
@@ -174,7 +174,7 @@ public interface UsersApi {
         consumes = { "application/json" }
     )
     default ResponseEntity<User> updateUserData(
-        @Parameter(name = "userId", description = "ID of the user", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
+        @Parameter(name = "userId", description = "user id", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
         @Parameter(name = "UserUpdate", description = "", required = true) @Valid @RequestBody UserUpdate userUpdate
     ) {
         getRequest().ifPresent(request -> {

@@ -1,4 +1,4 @@
-package com.assessment.work.grandkapital.service.impl;
+package com.assessment.work.grandkapital.utils;
 
 import com.assessment.work.grandkapital.exception.ValidationException;
 import lombok.experimental.UtilityClass;

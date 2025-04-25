@@ -1,8 +1,8 @@
 package com.assessment.work.grandKapital_api.controllers;
 
 import com.assessment.work.grandKapital_api.models.Error;
+import com.assessment.work.grandKapital_api.models.LoginRequest;
 import com.assessment.work.grandKapital_api.models.Message;
-import com.assessment.work.grandKapital_api.models.Phone;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +31,12 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-25T09:11:06.264542200+03:00[Europe/Minsk]")
 @Controller
 @RequestMapping("${openapi.grandKapital.base-path:}")
-public class PhonesApiController implements PhonesApi {
+public class AuthApiController implements AuthApi {
 
     private final NativeWebRequest request;
 
     @Autowired
-    public PhonesApiController(NativeWebRequest request) {
+    public AuthApiController(NativeWebRequest request) {
         this.request = request;
     }
 

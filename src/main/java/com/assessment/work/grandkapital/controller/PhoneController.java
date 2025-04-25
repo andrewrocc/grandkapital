@@ -4,7 +4,7 @@ import com.assessment.work.grandKapital_api.controllers.PhonesApi;
 import com.assessment.work.grandKapital_api.models.Message;
 import com.assessment.work.grandKapital_api.models.Phone;
 import com.assessment.work.grandkapital.service.PhoneService;
-import com.assessment.work.grandkapital.service.impl.ValidationUtils;
+import com.assessment.work.grandkapital.utils.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

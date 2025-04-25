@@ -10,6 +10,8 @@ tags:
     description: User email management
   - name: phones
     description: User phone number management
+  - name: auth
+    description: Authentication entrypoint
 
 paths:
   /users:
@@ -88,7 +90,13 @@ paths:
       operationId: getUserById
       description: Retrieve user information by ID
       parameters:
-        - $ref: '#/components/parameters/userId'
+        - name: userId
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         200:
           description: User details
@@ -114,7 +122,13 @@ paths:
         - Add/change/remove email (if not used by another user)
         - Add/change/remove phone (if not used by another user)
       parameters:
-        - $ref: '#/components/parameters/userId'
+        - name: userId
+          in: path
+          description: user id
+          required: true
+          schema:
+            type: integer
+            format: int64
       requestBody:
         required: true
         content:
@@ -355,6 +369,33 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /auth:
+    post:
+      tags:
+        - auth
+      summary: Authentication entrypoint
+      operationId: login
+      description: login user and create new jwt token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        200:
+          description: Login successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 components:
   schemas:
     Page:
@@ -479,29 +520,22 @@ components:
       required:
         - message
 
-  parameters:
-    userId:
-      name: userId
-      in: path
-      required: true
-      description: ID of the user
-      schema:
-        type: integer
-        format: int64
-    page:
-      name: page
-      in: query
-      description: Page number (0-based)
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    size:
-      name: size
-      in: query
-      description: Number of items per page
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: user email for auth
+          example: ivan@mail.com
+        password:
+          type: string
+          description: user password
+      required:
+        - email
+        - password
+
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

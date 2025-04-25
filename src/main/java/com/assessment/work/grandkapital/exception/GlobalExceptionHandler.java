@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -47,6 +48,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         final Error errorMessage = new Error().message("Формат параметров запроса не соответствует протоколу: " + ex.getMessage());
         res.setStatus(Optional.ofNullable(errorMessage.getStatus()).orElse(HttpStatus.BAD_REQUEST.value()));
         return errorMessage;
+    }
+
+    @ResponseBody
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Object> handleGlobalException(final AuthenticationException ex) {
+        log.error("error while authentication process. {}", ex.getMessage());
+        Error errorMessage = new Error().message(ex.getMessage()).status(HttpStatus.UNAUTHORIZED.value());
+        return ResponseEntity
+                .status(errorMessage.getStatus())
+                .body(errorMessage);
     }
 
     @ExceptionHandler(value = Exception.class)

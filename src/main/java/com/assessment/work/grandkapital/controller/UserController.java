@@ -7,7 +7,7 @@ import com.assessment.work.grandKapital_api.models.UserUpdate;
 import com.assessment.work.grandkapital.mapper.UserMapper;
 import com.assessment.work.grandkapital.model.entity.UserEntity;
 import com.assessment.work.grandkapital.service.UserService;
-import com.assessment.work.grandkapital.service.impl.ValidationUtils;
+import com.assessment.work.grandkapital.utils.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

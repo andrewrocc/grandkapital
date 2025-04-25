@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
@@ -25,4 +26,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @EntityGraph(value = "account-emails-phones-graph")
     Page<UserEntity> findByParams(@Param("dateOfBirth") LocalDate dateOfBirth, @Param("phone") String phone, @Param("name") String name,
                                   @Param("email") String email, Pageable pageable);
+
+    Optional<UserEntity> findByEmailsEmail(String email);
 }
