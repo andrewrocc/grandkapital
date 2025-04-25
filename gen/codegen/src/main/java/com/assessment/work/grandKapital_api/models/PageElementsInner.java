@@ -24,6 +24,6 @@ import java.util.*;
 import javax.annotation.Generated;
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-25T09:11:06.264542200+03:00[Europe/Minsk]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-25T10:46:09.785391900+03:00[Europe/Minsk]")
 public interface PageElementsInner {
 }

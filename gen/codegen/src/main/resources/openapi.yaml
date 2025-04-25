@@ -15,6 +15,8 @@ tags:
   name: phones
 - description: Authentication entrypoint
   name: auth
+- description: Transfer money between users
+  name: transfer
 paths:
   /users:
     get:
@@ -468,6 +470,38 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: auth
+  /transfer:
+    post:
+      description: ""
+      operationId: transfer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: bad request
+      security:
+      - JWT: []
+      summary: Transfer money from one to another user
+      tags:
+      - transfer
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: transfer
 components:
   schemas:
     Page:
@@ -631,7 +665,31 @@ components:
       - email
       - password
       type: object
+    TransferRequest:
+      example:
+        amount: 99.9
+        toUserId: 101
+      properties:
+        toUserId:
+          description: destination user
+          example: 101
+          format: int64
+          type: integer
+        amount:
+          description: amount of money to transfer
+          example: 99.9
+          format: double
+          type: number
+      required:
+      - amount
+      - toUserId
+      type: object
     Page_elements_inner:
       oneOf:
       - $ref: '#/components/schemas/User'
       x-one-of-name: PageElementsInner
+  securitySchemes:
+    JWT:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

@@ -6,8 +6,8 @@
 package com.assessment.work.grandKapital_api.controllers;
 
 import com.assessment.work.grandKapital_api.models.Error;
-import com.assessment.work.grandKapital_api.models.LoginRequest;
 import com.assessment.work.grandKapital_api.models.Message;
+import com.assessment.work.grandKapital_api.models.TransferRequest;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,43 +36,46 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-25T10:46:09.785391900+03:00[Europe/Minsk]")
 @Validated
-@Tag(name = "auth", description = "Authentication entrypoint")
-public interface AuthApi {
+@Tag(name = "transfer", description = "Transfer money between users")
+public interface TransferApi {
 
     default Optional<NativeWebRequest> getRequest() {
         return Optional.empty();
     }
 
     /**
-     * POST /auth : Authentication entrypoint
-     * login user and create new jwt token
+     * POST /transfer : Transfer money from one to another user
+     * 
      *
-     * @param loginRequest  (required)
-     * @return Login successfully (status code 200)
-     *         or Forbidden (status code 403)
+     * @param transferRequest  (required)
+     * @return Success (status code 200)
+     *         or bad request (status code 400)
      */
     @Operation(
-        operationId = "login",
-        summary = "Authentication entrypoint",
-        description = "login user and create new jwt token",
-        tags = { "auth" },
+        operationId = "transfer",
+        summary = "Transfer money from one to another user",
+        description = "",
+        tags = { "transfer" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Login successfully", content = {
+            @ApiResponse(responseCode = "200", description = "Success", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Message.class))
             }),
-            @ApiResponse(responseCode = "403", description = "Forbidden", content = {
+            @ApiResponse(responseCode = "400", description = "bad request", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
             })
+        },
+        security = {
+            @SecurityRequirement(name = "JWT")
         }
     )
     @RequestMapping(
         method = RequestMethod.POST,
-        value = "/auth",
+        value = "/transfer",
         produces = { "application/json" },
         consumes = { "application/json" }
     )
-    default ResponseEntity<Message> login(
-        @Parameter(name = "LoginRequest", description = "", required = true) @Valid @RequestBody LoginRequest loginRequest
+    default ResponseEntity<Message> transfer(
+        @Parameter(name = "TransferRequest", description = "", required = true) @Valid @RequestBody TransferRequest transferRequest
     ) {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

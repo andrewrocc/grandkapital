@@ -1,10 +1,12 @@
 package com.assessment.work.grandkapital.repository;
 
 import com.assessment.work.grandkapital.model.entity.UserEntity;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -28,4 +30,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
                                   @Param("email") String email, Pageable pageable);
 
     Optional<UserEntity> findByEmailsEmail(String email);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select u from UserEntity u where u.id = :id")
+    Optional<UserEntity> findByIdPessimisticWrite(@Param("id") Long id);
 }

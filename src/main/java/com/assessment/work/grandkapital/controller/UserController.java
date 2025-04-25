@@ -20,7 +20,6 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class UserController implements UsersApi {
 
-    // todo replace request userId param to jwt.userId
     private final UserService userService;
     private final UserMapper userMapper;
 

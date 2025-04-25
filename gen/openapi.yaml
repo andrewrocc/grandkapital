@@ -12,6 +12,8 @@ tags:
     description: User phone number management
   - name: auth
     description: Authentication entrypoint
+  - name: transfer
+    description: Transfer money between users
 
 paths:
   /users:
@@ -396,6 +398,35 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
+  /transfer:
+    post:
+      security:
+        - JWT: [ ]
+      tags:
+        - transfer
+      summary: Transfer money from one to another user
+      operationId: transfer
+      description: ""
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        400:
+          description: bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
 components:
   schemas:
     Page:
@@ -533,6 +564,23 @@ components:
       required:
         - email
         - password
+
+    TransferRequest:
+      type: object
+      properties:
+        toUserId:
+          type: integer
+          format: int64
+          description: destination user
+          example: 101
+        amount:
+          type: number
+          format: double
+          description: amount of money to transfer
+          example: 99.9
+      required:
+        - toUserId
+        - amount
 
   securitySchemes:
     JWT:

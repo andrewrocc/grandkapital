@@ -26,7 +26,6 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**").permitAll()
-//                        .requestMatchers("/users").authenticated()
                         .anyRequest().permitAll()
                 )
                 .exceptionHandling(exceptionHandler -> exceptionHandler.authenticationEntryPoint(authenticationExceptionEntryPoint))

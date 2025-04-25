@@ -2,7 +2,7 @@ package com.assessment.work.grandKapital_api.controllers;
 
 import com.assessment.work.grandKapital_api.models.Error;
 import com.assessment.work.grandKapital_api.models.Message;
-import com.assessment.work.grandKapital_api.models.Phone;
+import com.assessment.work.grandKapital_api.models.TransferRequest;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +31,12 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-25T10:46:09.785391900+03:00[Europe/Minsk]")
 @Controller
 @RequestMapping("${openapi.grandKapital.base-path:}")
-public class PhonesApiController implements PhonesApi {
+public class TransferApiController implements TransferApi {
 
     private final NativeWebRequest request;
 
     @Autowired
-    public PhonesApiController(NativeWebRequest request) {
+    public TransferApiController(NativeWebRequest request) {
         this.request = request;
     }
 

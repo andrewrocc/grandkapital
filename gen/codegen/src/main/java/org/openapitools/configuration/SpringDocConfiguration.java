@@ -22,6 +22,14 @@ public class SpringDocConfiguration {
                                 .description("Взаимодействие с HTTP-сервисом, эмулирующий банковские транзакции и менеджмент пользовательский данных")
                                 .version("1.0.0")
                 )
+                .components(
+                        new Components()
+                                .addSecuritySchemes("JWT", new SecurityScheme()
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")
+                                )
+                )
         ;
     }
 }
