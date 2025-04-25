@@ -20,7 +20,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             "left join fetch u.emails e " +
 //            "left join PhoneDataEntity p on u.id = p.user.id " +
 //            "left join EmailDataEntity e on u.id = e.user.id " +
-            "where (:dateOfBirth is null or u.dateOfBirth >= :dateOfBirth) " +
+            "where (cast(:dateOfBirth as date) is null or u.dateOfBirth >= :dateOfBirth) " +
             "and (:phone is null or p.phone = :phone) " +
             "and (:email is null or e.email = :email) " +
             "and  (:name is null or lower(cast(u.name as text)) like lower(cast(concat('%', :name, '%') as text))) " +

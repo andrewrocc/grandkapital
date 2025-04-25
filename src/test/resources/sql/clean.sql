@@ -1,0 +1,1 @@
+TRUNCATE TABLE grand_kapital.phone_data, grand_kapital.email_data, grand_kapital.account, grand_kapital.users RESTART IDENTITY CASCADE;

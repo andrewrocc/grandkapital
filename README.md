@@ -9,7 +9,7 @@
 4. Spring security (jwt authentication/authorization без refresh token)
 5. Spring schedule
 
-Все настройки в application.yaml. Находятся в пакете config.
+Все настройки в application.yaml. Находятся в пакете resources.
 
 Необходимо вызвать команду
 
