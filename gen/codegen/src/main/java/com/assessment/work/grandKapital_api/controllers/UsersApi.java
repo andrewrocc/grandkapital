@@ -10,7 +10,6 @@ import com.assessment.work.grandKapital_api.models.Error;
 import java.time.LocalDate;
 import com.assessment.work.grandKapital_api.models.Page;
 import com.assessment.work.grandKapital_api.models.User;
-import com.assessment.work.grandKapital_api.models.UserUpdate;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,7 +36,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-25T10:46:09.785391900+03:00[Europe/Minsk]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-25T14:24:03.374571600+03:00[Europe/Minsk]")
 @Validated
 @Tag(name = "users", description = "Operations with user profiles")
 public interface UsersApi {
@@ -134,53 +133,6 @@ public interface UsersApi {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                     String exampleString = "{ \"number\" : 0, \"total\" : 6, \"elementsTotal\" : 1, \"elements\" : [ null, null ] }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
-    }
-
-
-    /**
-     * PATCH /users/{userId} : Update user data
-     * Update user information. User can only update their own data. Allowed updates: - Add/change/remove email (if not used by another user) - Add/change/remove phone (if not used by another user) 
-     *
-     * @param userId user id (required)
-     * @param userUpdate  (required)
-     * @return User updated successfully (status code 200)
-     *         or bad request (status code 400)
-     */
-    @Operation(
-        operationId = "updateUserData",
-        summary = "Update user data",
-        description = "Update user information. User can only update their own data. Allowed updates: - Add/change/remove email (if not used by another user) - Add/change/remove phone (if not used by another user) ",
-        tags = { "users" },
-        responses = {
-            @ApiResponse(responseCode = "200", description = "User updated successfully", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))
-            }),
-            @ApiResponse(responseCode = "400", description = "bad request", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.PATCH,
-        value = "/users/{userId}",
-        produces = { "application/json" },
-        consumes = { "application/json" }
-    )
-    default ResponseEntity<User> updateUserData(
-        @Parameter(name = "userId", description = "user id", required = true, in = ParameterIn.PATH) @PathVariable("userId") Long userId,
-        @Parameter(name = "UserUpdate", description = "", required = true) @Valid @RequestBody UserUpdate userUpdate
-    ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"emails\" : [ \"ivan.petrov@example.com\" ], \"name\" : \"Иван Иванов\", \"phones\" : [ \"79200234567\" ], \"dateOfBirth\" : \"2000-01-23\", \"id\" : 1, \"account\" : { \"balance\" : 1500.75, \"id\" : 1 } }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }

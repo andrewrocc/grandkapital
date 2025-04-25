@@ -7,6 +7,7 @@ import com.assessment.work.grandkapital.model.entity.UserEntity;
 import com.assessment.work.grandkapital.repository.UserRepository;
 import com.assessment.work.grandkapital.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
+    @Cacheable(value = "user", key = "#userId", cacheManager = "users")
     public UserEntity getUserById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new GrandKapitalException("User not found"));
     }

@@ -3,7 +3,6 @@ package com.assessment.work.grandkapital.controller;
 import com.assessment.work.grandKapital_api.controllers.UsersApi;
 import com.assessment.work.grandKapital_api.models.Page;
 import com.assessment.work.grandKapital_api.models.User;
-import com.assessment.work.grandKapital_api.models.UserUpdate;
 import com.assessment.work.grandkapital.mapper.UserMapper;
 import com.assessment.work.grandkapital.model.entity.UserEntity;
 import com.assessment.work.grandkapital.service.UserService;
@@ -53,10 +52,5 @@ public class UserController implements UsersApi {
                                             String name, String email) {
         ValidationUtils.validateDateFormatAndPhone(dateOfBirth, phone);
         return ResponseEntity.ok(userService.getPage(pageNumber, pageSize, dateOfBirth, phone, name, email));
-    }
-
-    @Override
-    public ResponseEntity<User> updateUserData(Long userId, UserUpdate userUpdate) {
-        return UsersApi.super.updateUserData(userId, userUpdate);
     }
 }

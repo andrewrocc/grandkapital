@@ -113,44 +113,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 
-    patch:
-      tags:
-        - users
-      summary: Update user data
-      operationId: updateUserData
-      description: |
-        Update user information. User can only update their own data.
-        Allowed updates:
-        - Add/change/remove email (if not used by another user)
-        - Add/change/remove phone (if not used by another user)
-      parameters:
-        - name: userId
-          in: path
-          description: user id
-          required: true
-          schema:
-            type: integer
-            format: int64
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserUpdate'
-      responses:
-        200:
-          description: User updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        400:
-          description: bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
   /emails:
     post:
       tags:

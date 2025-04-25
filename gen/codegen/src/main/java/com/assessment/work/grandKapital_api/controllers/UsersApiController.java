@@ -5,7 +5,6 @@ import com.assessment.work.grandKapital_api.models.Error;
 import java.time.LocalDate;
 import com.assessment.work.grandKapital_api.models.Page;
 import com.assessment.work.grandKapital_api.models.User;
-import com.assessment.work.grandKapital_api.models.UserUpdate;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ import java.util.Map;
 import java.util.Optional;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-25T10:46:09.785391900+03:00[Europe/Minsk]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-04-25T14:24:03.374571600+03:00[Europe/Minsk]")
 @Controller
 @RequestMapping("${openapi.grandKapital.base-path:}")
 public class UsersApiController implements UsersApi {

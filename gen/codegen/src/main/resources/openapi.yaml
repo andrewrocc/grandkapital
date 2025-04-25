@@ -137,49 +137,6 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: users
-    patch:
-      description: |
-        Update user information. User can only update their own data.
-        Allowed updates:
-        - Add/change/remove email (if not used by another user)
-        - Add/change/remove phone (if not used by another user)
-      operationId: updateUserData
-      parameters:
-      - description: user id
-        explode: false
-        in: path
-        name: userId
-        required: true
-        schema:
-          format: int64
-          type: integer
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserUpdate'
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-          description: User updated successfully
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: bad request
-      summary: Update user data
-      tags:
-      - users
-      x-content-type: application/json
-      x-accepts: application/json
-      x-tags:
-      - tag: users
   /emails:
     delete:
       description: Remove email address from user profile
@@ -585,10 +542,6 @@ components:
           type: number
       type: object
     UserUpdate:
-      example:
-        password: newPassword123
-        name: Иван Иванов
-        dateOfBirth: 01.05.1993
       properties:
         name:
           example: Иван Иванов
