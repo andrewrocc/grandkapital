@@ -12,7 +12,7 @@ public class TestContainerConfiguration {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
     public PostgreSQLContainer<?> postgreSQLContainer() {
-        return new PostgreSQLContainer<>("postgres:15").withInitScript("sql/init-test-db.sql");
+        return new PostgreSQLContainer<>("postgres:15");
     }
 
     @Bean
