@@ -22,17 +22,21 @@ public class ScheduleExecutor {
     public void updateBalance() {
         log.debug("Schedule update balance has been started");
         accountRepository.findAll().forEach(account -> {            // not best practise :))
-            BigDecimal balance = account.getBalance();
-            BigDecimal increased = account.getBalance().multiply(new BigDecimal(1.10));
+            try {
+                BigDecimal balance = account.getBalance();
+                BigDecimal increased = account.getBalance().multiply(new BigDecimal("1.10"));
 
-            BigDecimal maxBalance = account.getInitDeposit().multiply(BigDecimal.valueOf(2.07));
-            if (increased.compareTo(maxBalance) > 0) {
-                increased = maxBalance;
+                BigDecimal maxBalance = account.getInitDeposit().multiply(new BigDecimal("2.07"));
+                if (increased.compareTo(maxBalance) > 0) {
+                    increased = maxBalance;
+                }
+                increased = increased.setScale(2, RoundingMode.HALF_UP);
+                account.setBalance(increased);
+
+                log.info("Account {}: {} -> {} (max: {})", account.getId(), balance, increased, maxBalance);
+            } catch (Exception ex) {
+                log.error("Failed to update balance for accountId={}", account.getId(), ex);
             }
-            increased = increased.setScale(2, RoundingMode.HALF_UP);
-            account.setBalance(increased);
-
-            log.info("Account {}: {} -> {} (max: {})", account.getId(), balance, increased, maxBalance);
         });
         log.debug("Schedule update balance has been ended");
     }

@@ -10,4 +10,6 @@ public interface UserService {
     UserEntity getUserById(Long userId);
 
     Page getPage(Integer pageNumber, Integer pageSize, LocalDate dateOfBirth, String phone, String name, String email);
+
+    boolean doesUserExist(Long userId);
 }

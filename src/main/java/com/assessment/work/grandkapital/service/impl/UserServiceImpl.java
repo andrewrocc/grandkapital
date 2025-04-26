@@ -38,4 +38,9 @@ public class UserServiceImpl implements UserService {
 
         return pageToReturn;
     }
+
+    @Override
+    public boolean doesUserExist(Long userId) {
+        return userRepository.existsById(userId);
+    }
 }

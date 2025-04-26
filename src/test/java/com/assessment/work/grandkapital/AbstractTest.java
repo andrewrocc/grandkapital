@@ -37,9 +37,8 @@ public abstract class AbstractTest {
     @Value("${spring.security.jwt.key-value}")
     private String KEY_SECRET;
 
-    protected String generateToken(Long userId, String sub) {
+    protected String generateToken(Long userId) {
         return Jwts.builder()
-                .subject(sub)
                 .claim(USER_ID_CLAIM, userId.toString())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 3600_000))    // 1 час

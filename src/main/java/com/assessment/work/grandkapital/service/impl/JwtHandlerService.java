@@ -23,9 +23,9 @@ public class JwtHandlerService implements JwtService {
     private final Function<Claims, String> userIdClaim = claims -> claims.get(USER_ID_CLAIM, String.class);
 
     @Override
-    public String generateToke(Long id, String username) {
+    public String generateToke(Long id) {
+
         return Jwts.builder()
-                .subject(username)
                 .claim(USER_ID_CLAIM, id.toString())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))     // 1 час

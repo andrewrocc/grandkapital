@@ -29,7 +29,6 @@ public class AuthenticationJwtService implements AuthenticationService {
             throw new GrandKapitalException("Wrong login or password", HttpStatus.FORBIDDEN);
         }
 
-        String token = jwtService.generateToke(user.get().getId(), user.get().getEmails().iterator().next().getEmail());
-        return token;
+        return jwtService.generateToke(user.get().getId());
     }
 }

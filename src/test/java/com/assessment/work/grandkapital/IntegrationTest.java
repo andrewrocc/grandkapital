@@ -25,7 +25,7 @@ public class IntegrationTest extends AbstractTest {
     @DisplayName("Тест трансфера денег между пользователями")
     void transferMoneyTestOk() throws Exception {
         TransferRequest transferRequest = new TransferRequest().toUserId(5L).amount(BigDecimal.valueOf(50000));
-        String token = generateToken(1L, "dmitry.smirnov@example.com");
+        String token = generateToken(1L);
 
         MockHttpServletResponse responseGenerate = mvc.perform(post("/transfer")
                         .header("Authorization", "Bearer " + token)
