@@ -1,5 +1,8 @@
 # Grand Kapital
 
+# Задание 
+ https://docs.google.com/document/d/15mT8r_uVRpUYppJFPLpvjHaa8EZewAjC/edit?tab=t.0
+
 ## Сборка
 
 Используется:
