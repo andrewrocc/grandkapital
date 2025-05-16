@@ -12,6 +12,12 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -22,26 +28,51 @@ public class IntegrationTest extends AbstractTest {
     @Test
     @Sql(value = "/sql/insert_data_test.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     @Sql(value = "/sql/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-    @DisplayName("Тест трансфера денег между пользователями")
+    @DisplayName("Тест (многопоточного) многопользовательского трансфера денег между пользователями")
     void transferMoneyTestOk() throws Exception {
-        TransferRequest transferRequest = new TransferRequest().toUserId(5L).amount(BigDecimal.valueOf(50000));
+        int threads = 5;
+        CountDownLatch latch = new CountDownLatch(threads);
+        List<Future<MockHttpServletResponse>> futures = new ArrayList<>();
+        ExecutorService threadPool = Executors.newFixedThreadPool(threads);
+
+        long userId = 5L;
         String token = generateToken(1L);
 
-        MockHttpServletResponse responseGenerate = mvc.perform(post("/transfer")
-                        .header("Authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(transferRequest)))
-                .andExpect(status().isOk())
-                .andReturn().getResponse();
+        for (int i = 0; i < threads; i++) {
+            futures.add(threadPool.submit(() -> {
+                try {
+                    TransferRequest transferRequest = new TransferRequest().toUserId(userId).amount(BigDecimal.valueOf(1000));
 
-        Message actualMessage = objectMapper.readValue(responseGenerate.getContentAsString(), Message.class);
-        assertEquals("Transfer successful", actualMessage.getMessage());
+                    MockHttpServletResponse response = mvc.perform(post("/transfer")
+                                    .header("Authorization", "Bearer " + token)
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .content(objectMapper.writeValueAsString(transferRequest)))
+                            .andExpect(status().isOk())
+                            .andReturn().getResponse();
+
+                    return response;
+                } finally {
+                    latch.countDown();
+                }
+            }));
+        }
+        latch.await();
+        threadPool.shutdown();
+
+        for (var future : futures) {
+            var response = future.get();
+            Message message = objectMapper.readValue(response.getContentAsString(), Message.class);
+            assertEquals("Transfer successful", message.getMessage());
+        }
 
         UserEntity userFrom = userRepository.findById(1L).get();
-        UserEntity userTo = userRepository.findById(transferRequest.getToUserId()).get();
+        UserEntity userTo = userRepository.findById(userId).get();
+
+        BigDecimal expectedFromBalance = BigDecimal.valueOf(150000.50).subtract(BigDecimal.valueOf(1000L * threads));
+        BigDecimal expectedToBalance = BigDecimal.valueOf(85000.00).add(BigDecimal.valueOf(1000L * threads));
         assertAll(
-                () -> assertEquals(userFrom.getAccount().getBalance().compareTo(BigDecimal.valueOf(100000.50)), 0),
-                () -> assertEquals(userTo.getAccount().getBalance().compareTo(BigDecimal.valueOf(135000.00)),0)
+                () -> assertEquals(0, userFrom.getAccount().getBalance().compareTo(expectedFromBalance)),
+                () -> assertEquals(0, userTo.getAccount().getBalance().compareTo(expectedToBalance))
         );
     }
 

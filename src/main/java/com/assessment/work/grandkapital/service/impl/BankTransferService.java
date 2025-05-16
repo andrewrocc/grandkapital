@@ -18,7 +18,7 @@ public class BankTransferService implements TransferService {
     private final UserRepository userRepository;
 
     @Override
-    @Transactional  //(isolation = Isolation.SERIALIZABLE)
+    @Transactional
     public void transfer(TransferRequest transferRequest, Long fromUserId) {
         if (fromUserId.equals(transferRequest.getToUserId())) {
             throw new GrandKapitalException("You can't transfer money to yourself");
